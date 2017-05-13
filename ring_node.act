@@ -1,0 +1,334 @@
+import "channel.act";
+import "globals.act";
+
+/* ci.r is cio and ci.a is cii */
+/* co.r is coo and co.a is coi */
+defproc ring_node(globals g; e4x1of2 si, i, so, o; a1of1 ci, co; bool address[2])  {
+
+	bool x[4], sihuh[2], flag[2], situpdatedhigh[4], situpdatedlow[4], itupdatedlow[4], iready[4], siready[4], xcoeff, itupdatedhigh[4], readyhuh, equalhigh[2], equallow[2], sihuhsi, sihuhidle;
+    bool _iready[4], _siready[4], _xcoeff, _situpdatedhigh[4], _situpdatedlow[4], _itupdatedhigh[4], _itupdatedlow[4], _sihuhsi, _equalhigh[2], _flagzero, _cii, _readyhuh, _x[4], _coo;
+    bool _io, _sio, _sihuh[2];
+    e4x1of2 _so,_o;
+
+prs {
+    g.Reset | ~_xcoeff & ((~i.b[0].f & ~_iready[0]) | (~si.b[0].f & ~_siready[0])) -> x[0]+
+    ~g.Reset & ci.r & readyhuh & ((i.b[0].f & ((i.b[0].f | i.b[0].t) & (i.b[1].f | i.b[1].t) & (i.b[2].f | i.b[2].t) & (i.b[3].f | i.b[3].t)) & sihuh[1] & _sihuh[0]) | (si.b[0].f & ((si.b[0].f | si.b[0].t) & (si.b[1].f | si.b[1].t) & (si.b[2].f | si.b[2].t) & (si.b[3].f | si.b[3].t)) & (sihuhsi | sihuhidle))) -> x[0]-
+
+    g.Reset | ~_xcoeff & ((~i.b[1].f & ~_iready[1]) | (~si.b[1].f & ~_siready[1])) -> x[1]+
+    ~g.Reset & ci.r & readyhuh & ((i.b[1].f & ((i.b[0].f | i.b[0].t) & (i.b[1].f | i.b[1].t) & (i.b[2].f | i.b[2].t) & (i.b[3].f | i.b[3].t)) & sihuh[1] & _sihuh[0]) | (si.b[1].f & ((si.b[0].f | si.b[0].t) & (si.b[1].f | si.b[1].t) & (si.b[2].f | si.b[2].t) & (si.b[3].f | si.b[3].t)) & (sihuhsi | sihuhidle))) -> x[1]-
+
+    g.Reset | ~_xcoeff & ((~i.b[2].f & ~_iready[2]) | (~si.b[2].f & ~_siready[2])) -> x[2]+
+    ~g.Reset & ci.r & readyhuh & ((i.b[2].f & ((i.b[0].f | i.b[0].t) & (i.b[1].f | i.b[1].t) & (i.b[2].f | i.b[2].t) & (i.b[3].f | i.b[3].t)) & sihuh[1] & _sihuh[0]) | (si.b[2].f & ((si.b[0].f | si.b[0].t) & (si.b[1].f | si.b[1].t) & (si.b[2].f | si.b[2].t) & (si.b[3].f | si.b[3].t)) & (sihuhsi | sihuhidle))) -> x[2]-
+
+    g.Reset | ~_xcoeff & ((~i.b[3].f & ~_iready[3]) | (~si.b[3].f & ~_siready[3])) -> x[3]+
+    ~g.Reset & ci.r & readyhuh & ((i.b[3].f & ((i.b[0].f | i.b[0].t) & (i.b[1].f | i.b[1].t) & (i.b[2].f | i.b[2].t) & (i.b[3].f | i.b[3].t)) & sihuh[1] & _sihuh[0]) | (si.b[3].f & ((si.b[0].f | si.b[0].t) & (si.b[1].f | si.b[1].t) & (si.b[2].f | si.b[2].t) & (si.b[3].f | si.b[3].t)) & (sihuhsi | sihuhidle))) -> x[3]-
+
+    g.Reset | x[0] & _readyhuh & flag[1] & flag[0] & co.a -> _o.b[0].t+
+    ~g.Reset & ~co.a -> _o.b[0].t-
+
+    g.Reset | _x[0] & _readyhuh & flag[1] & flag[0] & co.a -> _o.b[0].f+
+    ~g.Reset & ~co.a -> _o.b[0].f-
+
+    g.Reset | x[0] & _readyhuh & flag[1] & _flagzero & co.a -> _so.b[0].t+
+    ~g.Reset & ~co.a -> _so.b[0].t-
+
+    g.Reset | _x[0] & _readyhuh & flag[1] & _flagzero & co.a -> _so.b[0].f+
+    ~g.Reset & ~co.a -> _so.b[0].f-
+
+    g.Reset | x[1] & _readyhuh & flag[1] & flag[0] & co.a -> _o.b[1].t+
+    ~g.Reset & ~co.a -> _o.b[1].t-
+
+    g.Reset | _x[1] & _readyhuh & flag[1] & flag[0] & co.a -> _o.b[1].f+
+    ~g.Reset & ~co.a -> _o.b[1].f-
+
+    g.Reset | x[1] & _readyhuh & flag[1] & _flagzero & co.a -> _so.b[1].t+
+    ~g.Reset & ~co.a -> _so.b[1].t-
+
+    g.Reset | _x[1] & _readyhuh & flag[1] & _flagzero & co.a -> _so.b[1].f+
+    ~g.Reset & ~co.a -> _so.b[1].f-
+
+    g.Reset | x[2] & _readyhuh & flag[1] & flag[0] & co.a -> _o.b[2].t+
+    ~g.Reset & ~co.a -> _o.b[2].t-
+
+    g.Reset | _x[2] & _readyhuh & flag[1] & flag[0] & co.a -> _o.b[2].f+
+    ~g.Reset & ~co.a -> _o.b[2].f-
+
+    g.Reset | x[2] & _readyhuh & flag[1] & _flagzero & co.a -> _so.b[2].t+
+    ~g.Reset & ~co.a -> _so.b[2].t-
+
+    g.Reset | _x[2] & _readyhuh & flag[1] & _flagzero & co.a -> _so.b[2].f+
+    ~g.Reset & ~co.a -> _so.b[2].f-
+
+    g.Reset | x[3] & _readyhuh & flag[1] & flag[0] & co.a -> _o.b[3].t+
+    ~g.Reset & ~co.a -> _o.b[3].t-
+
+    g.Reset | _x[3] & _readyhuh & flag[1] & flag[0] & co.a -> _o.b[3].f+
+    ~g.Reset & ~co.a -> _o.b[3].f-
+
+    g.Reset | x[3] & _readyhuh & flag[1] & _flagzero & co.a -> _so.b[3].t+
+    ~g.Reset & ~co.a -> _so.b[3].t-
+
+    g.Reset | _x[3] & _readyhuh & flag[1] & _flagzero & co.a -> _so.b[3].f+
+    ~g.Reset & ~co.a -> _so.b[3].f-
+
+    g.Reset | (i.b[0].t & ((i.b[0].f | i.b[0].t) & (i.b[1].f | i.b[1].t) & (i.b[2].f | i.b[2].t) & (i.b[3].f | i.b[3].t)) & sihuh[1] & _sihuh[0]) -> _iready[0]+
+    ~g.Reset & (~i.b[0].t | ((~i.b[0].f & ~i.b[0].t) | (~i.b[1].f & ~i.b[1].t) | (~i.b[2].f & ~i.b[2].t) | (~i.b[3].f & ~i.b[3].t)) | ~sihuh[1] | ~_sihuh[0]) -> _iready[0]-
+
+    g.Reset | (si.b[0].t & ((si.b[0].f | si.b[0].t) & (si.b[1].f | si.b[1].t) & (si.b[2].f | si.b[2].t) & (si.b[3].f | si.b[3].t)) & (sihuhsi | sihuhidle)) -> _siready[0]+
+    ~g.Reset & (~si.b[0].t | ((~si.b[0].f & ~si.b[0].t) | (~si.b[1].f & ~si.b[1].t) | (~si.b[2].f & ~si.b[2].t) | (~si.b[3].f & ~si.b[3].t)) | (~sihuhsi & ~sihuhidle)) -> _siready[0]-
+
+    g.Reset | (i.b[1].t & ((i.b[0].f | i.b[0].t) & (i.b[1].f | i.b[1].t) & (i.b[2].f | i.b[2].t) & (i.b[3].f | i.b[3].t)) & sihuh[1] & _sihuh[0]) -> _iready[1]+
+    ~g.Reset & (~i.b[1].t | ((~i.b[0].f & ~i.b[0].t) | (~i.b[1].f & ~i.b[1].t) | (~i.b[2].f & ~i.b[2].t) | (~i.b[3].f & ~i.b[3].t)) | ~sihuh[1] | ~_sihuh[0]) -> _iready[1]-
+
+    g.Reset | (si.b[1].t & ((si.b[0].f | si.b[0].t) & (si.b[1].f | si.b[1].t) & (si.b[2].f | si.b[2].t) & (si.b[3].f | si.b[3].t)) & (sihuhsi | sihuhidle)) -> _siready[1]+
+    ~g.Reset & (~si.b[1].t | ((~si.b[0].f & ~si.b[0].t) | (~si.b[1].f & ~si.b[1].t) | (~si.b[2].f & ~si.b[2].t) | (~si.b[3].f & ~si.b[3].t)) | (~sihuhsi & ~sihuhidle)) -> _siready[1]-
+
+    g.Reset | (i.b[2].t & ((i.b[0].f | i.b[0].t) & (i.b[1].f | i.b[1].t) & (i.b[2].f | i.b[2].t) & (i.b[3].f | i.b[3].t)) & sihuh[1] & _sihuh[0]) -> _iready[2]+
+    ~g.Reset & (~i.b[2].t | ((~i.b[0].f & ~i.b[0].t) | (~i.b[1].f & ~i.b[1].t) | (~i.b[2].f & ~i.b[2].t) | (~i.b[3].f & ~i.b[3].t)) | ~sihuh[1] | ~_sihuh[0]) -> _iready[2]-
+
+    g.Reset | (si.b[2].t & ((si.b[0].f | si.b[0].t) & (si.b[1].f | si.b[1].t) & (si.b[2].f | si.b[2].t) & (si.b[3].f | si.b[3].t)) & (sihuhsi | sihuhidle)) -> _siready[2]+
+    ~g.Reset & (~si.b[2].t | ((~si.b[0].f & ~si.b[0].t) | (~si.b[1].f & ~si.b[1].t) | (~si.b[2].f & ~si.b[2].t) | (~si.b[3].f & ~si.b[3].t)) | (~sihuhsi & ~sihuhidle)) -> _siready[2]-
+
+    g.Reset | (i.b[3].t & ((i.b[0].f | i.b[0].t) & (i.b[1].f | i.b[1].t) & (i.b[2].f | i.b[2].t) & (i.b[3].f | i.b[3].t)) & sihuh[1] & _sihuh[0]) -> _iready[3]+
+    ~g.Reset & (~i.b[3].t | ((~i.b[0].f & ~i.b[0].t) | (~i.b[1].f & ~i.b[1].t) | (~i.b[2].f & ~i.b[2].t) | (~i.b[3].f & ~i.b[3].t)) | ~sihuh[1] | ~_sihuh[0]) -> _iready[3]-
+
+    g.Reset | (si.b[3].t & ((si.b[0].f | si.b[0].t) & (si.b[1].f | si.b[1].t) & (si.b[2].f | si.b[2].t) & (si.b[3].f | si.b[3].t)) & (sihuhsi | sihuhidle)) -> _siready[3]+
+    ~g.Reset & (~si.b[3].t | ((~si.b[0].f & ~si.b[0].t) | (~si.b[1].f & ~si.b[1].t) | (~si.b[2].f & ~si.b[2].t) | (~si.b[3].f & ~si.b[3].t)) | (~sihuhsi & ~sihuhidle)) -> _siready[3]-
+
+    g.Reset | ~ci.r | ~readyhuh -> _xcoeff+
+    ~g.Reset &  ci.r & readyhuh -> _xcoeff-
+
+    g.Reset | si.b[0].t & x[0] -> _situpdatedhigh[0]+
+    ~g.Reset & ~si.b[0].t | ~x[0] -> _situpdatedhigh[0]-
+
+  	g.Reset | si.b[1].t & x[1] -> _situpdatedhigh[1]+
+    ~g.Reset & ~si.b[1].t | ~x[1] -> _situpdatedhigh[1]-
+
+    g.Reset | si.b[2].t & x[2] -> _situpdatedhigh[2]+
+    ~g.Reset & ~si.b[2].t | ~x[2] -> _situpdatedhigh[2]-
+
+    g.Reset | si.b[3].t & x[3] -> _situpdatedhigh[3]+
+    ~g.Reset & ~si.b[3].t | ~x[3] -> _situpdatedhigh[3]-
+
+    g.Reset | si.b[0].f & _x[0] -> _situpdatedlow[0]+
+    ~g.Reset & ~si.b[0].f | ~_x[0] -> _situpdatedlow[0]-
+
+  	g.Reset | si.b[1].f & _x[1] -> _situpdatedlow[1]+
+    ~g.Reset & ~si.b[1].f | ~_x[1] -> _situpdatedlow[1]-
+
+    g.Reset | si.b[2].f & _x[2] -> _situpdatedlow[2]+
+    ~g.Reset & ~si.b[2].f | ~_x[2] -> _situpdatedlow[2]-
+
+    g.Reset | si.b[3].f & _x[3] -> _situpdatedlow[3]+
+    ~g.Reset & ~si.b[3].f | ~_x[3] -> _situpdatedlow[3]-
+
+    g.Reset | i.b[0].t & x[0] -> _itupdatedhigh[0]+
+    ~g.Reset & ~i.b[0].t | ~x[0] -> _itupdatedhigh[0]-
+
+  	g.Reset | i.b[1].t & x[1] -> _itupdatedhigh[1]+
+    ~g.Reset & ~i.b[1].t | ~x[1] -> _itupdatedhigh[1]-
+
+    g.Reset | i.b[2].t & x[2] -> _itupdatedhigh[2]+
+    ~g.Reset & ~i.b[2].t | ~x[2] -> _itupdatedhigh[2]-
+
+    g.Reset | i.b[3].t & x[3] -> _itupdatedhigh[3]+
+    ~g.Reset & ~i.b[3].t | ~x[3] -> _itupdatedhigh[3]-
+
+    g.Reset | i.b[0].f & _x[0] -> _itupdatedlow[0]+
+    ~g.Reset & ~i.b[0].f | ~_x[0] -> _itupdatedlow[0]-
+
+  	g.Reset | i.b[1].f & _x[1] -> _itupdatedlow[1]+
+    ~g.Reset & ~i.b[1].f | ~_x[1] -> _itupdatedlow[1]-
+
+    g.Reset | i.b[2].f & _x[2] -> _itupdatedlow[2]+
+    ~g.Reset & ~i.b[2].f | ~_x[2] -> _itupdatedlow[2]-
+
+    g.Reset | i.b[3].f & _x[3] -> _itupdatedlow[3]+
+    ~g.Reset & ~i.b[3].f | ~_x[3] -> _itupdatedlow[3]-
+
+    g.Reset | _cii & (si.b[0].t | si.b[0].f | si.b[1].t | si.b[1].f | si.b[2].t | si.b[2].f | si.b[3].t | si.b[3].f) & ((situpdatedhigh[0] | situpdatedlow[0]) & (situpdatedhigh[1] | situpdatedlow[1]) & (situpdatedhigh[2] | situpdatedlow[2]) & (situpdatedhigh[3] | situpdatedlow[3])) -> _sio+
+    ~g.Reset & ~si.b[0].t & ~si.b[0].f & ~si.b[1].t & ~si.b[1].f & ~si.b[2].t & ~si.b[2].f & ~si.b[3].t & ~si.b[3].f -> _sio-
+
+    g.Reset | ~co.a & (~so.e & ~o.e) -> readyhuh+
+    ~g.Reset & co.a & _cii & (((situpdatedhigh[0] | situpdatedlow[0]) & (situpdatedhigh[1] | situpdatedlow[1]) & (situpdatedhigh[2] | situpdatedlow[2]) & (situpdatedhigh[3] | situpdatedlow[3])) | ((itupdatedhigh[0] | itupdatedlow[0]) & (itupdatedhigh[1] | itupdatedlow[1]) & (itupdatedhigh[2] | itupdatedlow[2]) & (itupdatedhigh[3] | itupdatedlow[3]))) -> readyhuh-
+
+    g.Reset | (x[0] | x[1]) & _cii & (((situpdatedhigh[0] | situpdatedlow[0]) & (situpdatedhigh[1] | situpdatedlow[1]) & (situpdatedhigh[2] | situpdatedlow[2]) & (situpdatedhigh[3] | situpdatedlow[3])) | ((itupdatedhigh[0] | itupdatedlow[0]) & (itupdatedhigh[1] | itupdatedlow[1]) & (itupdatedhigh[2] | itupdatedlow[2]) & (itupdatedhigh[3] | itupdatedlow[3]))) -> _sihuh[1]+
+    ~g.Reset & ~_readyhuh & ~x[0] & ~x[1] -> _sihuh[1]-
+
+    g.Reset | (x[0] | x[1]) & _cii & (((situpdatedhigh[0] | situpdatedlow[0]) & (situpdatedhigh[1] | situpdatedlow[1]) & (situpdatedhigh[2] | situpdatedlow[2]) & (situpdatedhigh[3] | situpdatedlow[3])) | ((itupdatedhigh[0] | itupdatedlow[0]) & (itupdatedhigh[1] | itupdatedlow[1]) & (itupdatedhigh[2] | itupdatedlow[2]) & (itupdatedhigh[3] | itupdatedlow[3]))) -> _sihuh[0]+
+    ~g.Reset & ~_readyhuh & ~x[0] & ~x[1] -> _sihuh[0]-
+
+    sihuh[1] & sihuh[0] -> _sihuhsi+
+    ~sihuh[1] | ~sihuh[0] -> _sihuhsi-
+
+    ~sihuh[1] & ~sihuh[0] -> sihuhidle+
+    sihuh[1] | sihuh[0] -> sihuhidle-
+
+    g.Reset | _cii & (i.b[0].t | i.b[0].f | i.b[1].t | i.b[1].f | i.b[2].t | i.b[2].f | i.b[3].t | i.b[3].f) & ((itupdatedhigh[0] | itupdatedlow[0]) & (itupdatedhigh[1] | itupdatedlow[1]) & (itupdatedhigh[2] | itupdatedlow[2]) & (itupdatedhigh[3] | itupdatedlow[3])) -> _io+
+    ~g.Reset & ~i.b[0].t & ~i.b[0].f & ~i.b[1].t & ~i.b[1].f & ~i.b[2].t & ~i.b[2].f & ~i.b[3].t & ~i.b[3].f -> _io-
+
+    g.Reset | ~ci.a -> ci.r+
+    ~g.Reset & _readyhuh & sihuh[1] & ci.a -> ci.r-
+
+    g.Reset | so.e | o.e -> _coo+
+    ~g.Reset & ~so.e & ~o.e -> _coo-
+
+    g.Reset | ~readyhuh -> flag[1]+
+    ~g.Reset & readyhuh & _x[0] & _x[1] -> flag[1]-
+
+    g.Reset | _readyhuh & ((equalhigh[0] | equallow[0]) & (equalhigh[1] | equallow[1])) -> _flagzero+
+    ~g.Reset & ~_readyhuh & ~x[0] & ~x[1] -> _flagzero-
+
+    g.Reset | address[0] & x[2] -> _equalhigh[0]+
+    ~g.Reset & ~address[0] | ~x[2] -> _equalhigh[0]-
+
+    g.Reset | address[1] & x[3] -> _equalhigh[1]+
+    ~g.Reset & ~address[1] | ~x[3] -> _equalhigh[1]-
+
+    g.Reset | ~address[0] & ~x[2] -> equallow[0]+
+    ~g.Reset & address[0] | x[2] -> equallow[0]-
+
+    g.Reset | ~address[1] & ~x[3] -> equallow[1]+
+    ~g.Reset & address[1] | x[3] -> equallow[1]-
+
+    g.Reset | sihuh[0] & sihuh[1] -> _sihuhsi+
+    ~g.Reset & ~sihuh[0] | ~sihuh[1] -> _sihuhsi-
+
+    g.Reset | ~sihuh[0] & ~sihuh[1] -> sihuhidle+
+    ~g.Reset & sihuh[0] | sihuh[1] -> sihuhidle-
+
+    _iready[0] => iready[0]- 
+
+    _siready[0] => siready[0]-
+
+    _iready[1] => iready[1]-
+
+    _siready[1] => siready[1]-
+
+    _iready[2] => iready[2]-
+
+    _siready[2] => siready[2]-
+
+    _iready[3] => iready[3]-
+
+    _siready[3] => siready[3]- 
+
+    _xcoeff => xcoeff- 
+
+    _o.b[0].t => o.b[0].t- 
+
+    _o.b[0].f => o.b[0].f-
+
+    _o.b[1].t => o.b[1].t-
+
+    _o.b[1].f => o.b[1].f-
+
+    _o.b[2].t => o.b[2].t-
+
+    _o.b[2].f => o.b[2].f-
+
+    _o.b[3].t => o.b[3].t-
+
+    _o.b[3].f => o.b[3].f-
+
+    _so.b[0].t => so.b[0].t-
+
+    _so.b[0].f => so.b[0].f-
+
+    _so.b[1].t => so.b[1].t-
+
+    _so.b[1].f => so.b[1].f-
+
+    _so.b[2].t => so.b[2].t-
+
+    _so.b[2].f => so.b[2].f-
+
+    _so.b[3].t => so.b[3].t-
+
+    _so.b[3].f => so.b[3].f- 
+
+    _situpdatedhigh[0] => situpdatedhigh[0]- 
+
+    _situpdatedhigh[1] => situpdatedhigh[1]-
+
+    _situpdatedhigh[2] => situpdatedhigh[2]-
+
+    _situpdatedhigh[3] => situpdatedhigh[3]-
+
+    _situpdatedlow[0] => situpdatedlow[0]-
+
+    _situpdatedlow[1] => situpdatedlow[1]-
+
+    _situpdatedlow[2] => situpdatedlow[2]-
+
+    _situpdatedlow[3] => situpdatedlow[3]- 
+
+    _itupdatedhigh[0] => itupdatedhigh[0]- 
+
+    _itupdatedhigh[1] => itupdatedhigh[1]- 
+
+    _itupdatedhigh[2] => itupdatedhigh[2]- 
+
+    _itupdatedhigh[3] => itupdatedhigh[3]- 
+
+    _itupdatedlow[0] => itupdatedlow[0]- 
+
+    _itupdatedlow[1] => itupdatedlow[1]- 
+
+    _itupdatedlow[2] => itupdatedlow[2]- 
+
+    _itupdatedlow[3] => itupdatedlow[3]- 
+
+    _sihuhsi => sihuhsi- 
+
+    _equalhigh[1] => equalhigh[1]- 
+
+    _equalhigh[0] => equalhigh[0]- 
+
+    _flagzero => flag[0]- 
+
+    ~ci.a => _cii+ 
+
+    _coo => co.r- 
+
+    ~readyhuh => _readyhuh+ 
+
+    ~x[0] -> _x[0]+ 
+    x[0] -> _x[0]- 
+
+    ~x[1] -> _x[1]+ 
+    x[1] -> _x[1]- 
+
+    ~x[2] -> _x[2]+ 
+    x[2] -> _x[2]- 
+
+    ~x[3] -> _x[3]+ 
+    x[3] -> _x[3]- 
+
+    _sihuh[0] => sihuh[0]- 
+
+    _sihuh[1] => sihuh[1]- 
+
+    _sio => si.e- 
+
+    _io => i.e- 
+}
+
+}
+
+defproc ring_network(globals g; e4x1of2 inOne, outOne, inTwo, outTwo, inThree, outThree; bool addressOne[2], addressTwo[2], addressThree[2]){
+	/* defproc ring_node(globals g; e4x1of2 si, i, so, o; a1of1 ci, co; bool address[2])  { */
+	e4x1of2 w,x,y;
+	a1of1 cw,cx,cy;
+
+	ring_node first(g,w,inOne,x,outOne,cw,cx,addressOne);
+	ring_node second(g,x,inTwo,y,outTwo,cx,cy,addressTwo);
+	ring_node third(g,y,inThree,w,outThree,cy,cw,addressThree);
+}
+
+// *** Instantiate test bench **
+e4x1of2 inOne, outOne, inTwo, outTwo, inThree, outThree;
+bool addressOne[2], addressTwo[2], addressThree[2];
+globals g;
+
+ring_network r(g,inOne,outOne,inTwo,outTwo,inThree,outThree,addressOne,addressTwo,addressThree);
